@@ -1,0 +1,93 @@
+@charset "utf-8";
+/* CSS Document */
+
+#upload_btn {
+    width:100px;
+    height:25px;
+	z-index:100;	
+	left:500px;
+	top:100px;
+	text-align:center;
+	vertical-align:middle;
+	overflow:hidden;
+	display: inline-block;
+	font-family:"微软雅黑";
+	font-size:15px;
+}
+
+.upload_btn {
+   border:none;
+   background:none;
+}
+
+.filetrans_contorl{
+	padding-top: 12px;
+}
+
+#upload_btn_message{
+	display: inline-block;
+}
+#upload_btn_message span{
+	color: #FF6600;
+	font-size: 14px;
+}
+
+#content_wrapper{
+	margin-top: 30px;
+}
+
+#table_list {
+    position:relative;
+    width:980px;
+	min-height:330px;
+	max-height:auto;
+	overflow-x: hidden;    
+    overflow-y: auto;
+	margin:10px auto;
+}
+
+#listfile {
+margin:0 auto;
+}
+
+#getBoxy a.progressCancel {
+	font-size: 0;
+	display: block;
+	height: 14px;
+	width: 14px;
+	background-image:url(../../swfupload/images/u258_original.png);
+	background-repeat: no-repeat;
+	background-position: -1px -2px;
+	float: right;
+}
+#getBoxy .progressBarInProgress, #getBoxy .progressBarComplete,#getBoxy .progressBarError {
+	font-size: 0;
+	width: 0%;
+	height: 2px;
+	background-color: #05c;
+	margin-top: 2px;
+}
+
+#getBoxy .progressName{
+	font-size:18px;
+}
+
+.file-trans{
+	display: inline-block;
+	width: 65%;
+	height: 10px;
+	border: 1px solid #C0C0C0;
+	text-align: left;
+}
+.file-trans .file-trans-prossing{
+	display: inline-block;
+	height: 10px;
+	width: auto;
+	background-color: #008000;
+}
+
+
+
+
+
+

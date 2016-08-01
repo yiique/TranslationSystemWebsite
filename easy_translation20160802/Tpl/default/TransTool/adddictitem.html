@@ -1,0 +1,43 @@
+
+<include file="Public:header" />
+<body>
+<table width="550" border="1" class="modal-table">
+  <tr>
+    <td width="100" align="left">源语言：</td>
+    <td width="400" align="left">
+      <label>
+        <input class="easyui-validatebox" style="width:400px;"type="text" id="src" name="src" validType="length[1,1000]" required="true"></input>
+      </label>
+    </td>
+  </tr>
+	<tr><td colspan="2" style="height:10px"><hr style="width:100%;border:1px dotted  #D9E4FF" /></td></tr>
+  <tr>
+    <td width="100" align="left">目标语言：</td>
+    <td width="400" align="left">
+      <label>
+        <input class="easyui-validatebox" style="width:400px;"type="text" id="tgt" name="tgt" validType="length[1,1000]" required="true"></input>
+      </label>
+    </td>
+  </tr>
+	<tr><td colspan="2" style="height:10px"><hr style="width:100%;border:1px dotted  #D9E4FF" /></td></tr>  
+  <tr>
+    <td align="left">是否启用：</td>
+    <td align="left">
+		是<input type="radio" name="rb2" id="active_item" checked />&nbsp;
+		否<input type="radio" name="rb2" id="inactive_item"/>
+	      
+	</td>
+  </tr>
+  <tr><td colspan="2" style="height:10px"><hr style="width:100%;border:1px dotted  #D9E4FF" /></td></tr>  
+ <tr>
+    <td colspan="2" align="center">
+     <a href="javascript:void(0);" onClick="add_dictitem('{$dictid}');" class="easyui-linkbutton" id="submit" iconCls="icon-ok">保存</a>
+     &nbsp;
+     <a href="javascript:void(0);" onClick="cancel_additem();" class="easyui-linkbutton" id="submit" iconCls="icon-cancel">取消</a>
+    
+     </td>
+  </tr>
+</table>
+
+
+</body>

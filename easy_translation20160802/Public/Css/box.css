@@ -1,0 +1,29 @@
+/* CSS Document */
+
+#trans_wrapper .border-right { 
+	min-height:400px;
+	max-height:auto;
+    overflow-x: hidden;    
+    overflow-y: auto; 
+	background:url(../Image/border.gif) repeat-y right top;
+}
+
+#trans_wrapper .border-left {
+	min-height:400px;
+	max-height:auto;
+    overflow-x: hidden;    
+    overflow-y: auto;
+	background:url(../Image/border.gif) repeat-y;
+	border:1px solid #FF66CC;
+	margin-top:10px;
+}
+
+ .left-top-corner {	
+  width:20px;
+  height:66px;
+	background:url(../Image/left-top-corner.gif) no-repeat left top;
+
+}
+ .right-top-corner { 
+	background:url(../Image/right-top-corner.gif) no-repeat right top;
+}

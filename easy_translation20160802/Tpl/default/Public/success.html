@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html>
+<head>
+<title>Information</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv='Refresh' content='{$waitSecond};URL={$jumpUrl}'>
+<link rel='stylesheet' type='text/css' href='__PUBLIC__/Css/common.css'>
+</head>
+<body>
+<div class="message">
+<table align="center" class="message"  cellpadding=0 cellspacing=0 >
+	<tr>
+		<td height='5'  class="topTd" ></td>
+	</tr>
+
+	<present name="message" >
+	<tr align="center" class="row">
+		<td height="108" style="color:blue">{$message}</td>
+	</tr>
+	</present>
+	<present name="error" >
+	<tr align="center" class="row">
+		<td style="color:red">{$error}</td>
+	</tr>
+	</present>
+	<present name="closeWin" >
+		<tr class="row">
+		<td>Page will be closed in <span style="color:blue;font-weight:bold">{$waitSecond}</span> seconds，If you don't want to wait, please click <a href="{$jumpUrl}">Here</a> to close it or click <A HREF="javascript:history.back()">Here</A> to return.</td>
+	</tr>
+	</present>
+	<notpresent name="closeWin" >
+	<tr class="row">
+		<td>Page will be closed in <span style="color:blue;font-weight:bold">{$waitSecond}</span> seconds，If you don't want to wait, please click <a href="{$jumpUrl}">Here</a> to close it or click <A HREF="javascript:history.back()">Here</A> to return.</td>
+	</tr>
+	</notpresent>
+	<tr>
+		<td height='5' class="bottomTd"></td>
+	</tr>
+	</table>
+</div>
+</body>
+</html>

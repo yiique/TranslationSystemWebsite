@@ -1,0 +1,103 @@
+<include file="Public:header" />
+<include file="Public:menu" />
+
+<script type="text/javascript" src="__PUBLIC__/Js/easy_index/trans_online.js" language="javascript"></script>
+<script src="__PUBLIC__/Js/easy_index/jquery.tagsinput.js"></script>
+<script src="__PUBLIC__/ZeroClipboard/ZeroClipboard.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Js/easy_index/jquery.tagsinput.css" />
+
+<link href="__PUBLIC__/swfupload/css/default.css" rel="stylesheet"/>
+<style type="text/css">
+select{height:36px; border:0;font-size:20px; font-family: "Times New Roman", Times, serif; font-weight:600; color:#0CF;}
+</style>
+
+<script  type="text/javascript">
+
+
+var doc_height=document.documentElement.clientHeight;
+var doc_width=document.documentElement.clientWidth;
+
+$(document).ready (function (){
+	var app_url="__APP__";
+	
+	$("#content_wrapper").css("min-height",doc_height-255);  
+	
+	$("#input_wrapper").css("min-height",doc_height-286); 
+	
+	$(".input_area").css("min-height",doc_height-290);  
+	
+	$("#result").css("min-height",doc_height-286); 
+	
+	$("#left_wrapper,#right_wrapper").css("min-height",doc_height-270); 	
+ 
+});	
+
+</script>
+
+
+<div id="blank"></div>
+
+<div id="main_wrapper">
+   <div id="trans_wrapper">
+   
+      <div id="trans_language">
+	    <div class="trans_dir">翻译方向：
+	     <input id="direction" class="easyui-combobox" style=" width:200px;"
+						value="请选择翻译方向"
+				        url="__APP__/Index/listTranDir" editable="true" 
+				        valueField="dirid" textField="dirinfo"/> 
+        </div>
+	    <div class="unfold"></div>
+	  </div> 
+	  <button class="trans_btn" onclick="trans()" >开始翻译</button>
+	  <div id="reme">
+	  <!--<input id="rememberme" name="rememberme" type="checkbox"  /> 
+	  <label for="rememberme" class="remember_me" style="color:#000;">目标语言有空格</label> -->
+	</div>
+	  
+	  <div id="content_wrapper">
+    
+	    <div id="left_wrapper">
+         <div class="trans-online-tip">请在这里输入...</div>
+            <div id="input_wrapper">
+                <textarea wrap="SOFT" class="input_area" id="input_area" onpropertychange="this.style.height=this.scrollHeight+'px';$('#result').css('height',this.scrollHeight-0);input_text();" oninput="this.style.height=20+'px';this.style.height=this.scrollHeight+'px';$('#result').css('height',this.scrollHeight-0);input_text();" cols="" rows=""></textarea>
+	          <!--
+			    <div class="input_area" id="input_area" onpropertychange="input_text();" contenteditable="true" style="border:1px solid #FF0000;">
+				</div>-->
+	        </div>
+		  	  
+	        <div class="clear" title="清空" ></div>
+	    </div>
+	  
+	    <div id="right_wrapper">
+			<div class="trans-online-copy" id="trans-online-copy" data-clipboard-text="" title="复制翻译结果到剪切板">复制</div>
+			<div class="trans-online-fontsize">
+				字体
+				<button class="trans-online-sizebtn" id="trans-online-sizedown">-</button>
+				<span id="trans-online-size">13</span>
+				<button class="trans-online-sizebtn" id="trans-online-sizeup">+</button>
+			</div>
+            <div class="trans-online-tip">翻译结果：</div>
+            <div id="result">
+           
+            </div>
+	    </div>
+     
+	
+	  </div>
+
+   </div>
+   
+</div>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

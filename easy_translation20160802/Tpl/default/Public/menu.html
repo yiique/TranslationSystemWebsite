@@ -1,0 +1,44 @@
+<body>
+<div id="header_wrapper">	
+
+   <div class="menu_wrapper">
+   
+     <div class="sixcol"></div>
+	 
+     <div class="sixcol2">
+       <ul id>
+	      <li class="my_account" >我的帐户<img src="__PUBLIC__/Image/arrow.png" />
+		     <ul> 
+				 <li><a href="__APP__/User/myAccount">账户管理</a></li>
+				 
+				 <li><a href="__APP__/User/addTransDir">翻译方向</a></li>
+				 
+				 <li><a href="__APP__/Index/logout">退出</a></li>
+			 </ul>
+		  </li>
+		  <li id="dic"><a href="__APP__/TransTool" id="tool">词典管理</a></li>
+		  
+		  <li><a href="__APP__/Trans">文件翻译</a></li>
+		
+		  <li><a href="__APP__/Index" id="online">在线翻译</a></li>          
+        </ul>
+     </div>
+	 
+    </div>
+
+</div>
+
+<script type="text/javascript">
+$(document).ready (function (){
+	var types="<?php echo Session::get('type');?>"
+	if(types=="normal"){
+		$("#dic").hide();
+		}
+	$(".my_account").mouseover(function(){
+   $(".my_account ul").css("display","block");
+    });
+	$('.my_account').mouseout(function(){
+       $(".my_account ul").css("display","none");
+	});
+   });
+</script>

@@ -1,0 +1,135 @@
+<include file="Public:header" />
+<include file="Public:menu" />
+
+<script  type="text/javascript">
+var app_url="__APP__";
+var public_url="__PUBLIC__";
+
+var username="<?php echo $_SESSION['username'] ?>";
+var session_id="<?php echo session_id(); ?>";
+var down_url="<?php echo C('CAT_URL'); ?>";
+
+</script>
+
+
+<link href="__PUBLIC__/Css/easy_file/file_index.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="__PUBLIC__/Js/easy_file/filetrans.js" ></script>
+
+<script type="text/javascript" src="__PUBLIC__/Js/easy_file/upload_file.js"></script>
+
+
+<div id="blank"></div> 
+
+<div id="main_wrapper">
+
+   <div id="trans_wrapper" >
+ 
+	<div id="trans_language">
+	   <div class="trans_dir">翻译方向：
+	     <input id="direction" class="easyui-combobox"  style="width:200px"
+						value="请选择翻译方向"
+				        url="__APP__/Index/listTranDir" editable="true" 
+				        valueField="dirid" textField="dirinfo" /> 
+        </div>
+	    <div class="unfold"></div>
+	  </div>
+	  <div class="filetrans_contorl">
+		  <div id="upload_btn">
+				<button id="sm_btn_add_file" class="upload_btn"></button>
+		  </div>
+		 
+		 
+		  <div id="upload_btn_message">
+			<span> 支持doc,docx,txt,文件</span>
+			<!--<div class="fieldset flash" id="fsUploadProgress"></div>-->
+		  </div>
+	   </div>
+	  
+	  <div id="content_wrapper">
+	  
+        <div id="table_list">
+		 
+		  <table id="listfile" toolbar="#tb">		
+	      </table>
+		
+		<div id="tb" style="text-align:left;padding:5px 0 0 5px;height:auto">
+		
+		<!--<div style="padding:2px 5px 2px 5px">
+			 <div >翻译方向：
+	     <input id="direction" class="easyui-combobox"  style="width:150px"
+				        url="__APP__/Index/listTranDir" editable="true" 
+				        valueField="dirid" textField="dirinfo" /> 
+        </div>
+			
+			<a id="sm_btn_add_file" class="" >上传文件</a>
+
+	<!--		
+	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-ok" style="margin-left:10px;" onclick="javascript:subtrans();">提交翻译</a>
+			<a href="#" class="easyui-linkbutton" id="btnCancel" plain="true" iconCls="icon-cancel" onclick="swfu.cancelQueue();" class="r5px button_blue" style="margin-left: 10px;">取消所选</a>
+
+		</div> 
+	   	
+   	 	<div>
+   	 		<hr/>
+   	 	</div>    -->
+		
+		<div style="padding:2px 5px 2px 5px">			
+<!--			<div style="float:left">
+			<a class="easyui-linkbutton" plain="true" onclick="javascript:viewall();">显示所有</a>
+						
+			</div>-->
+			
+			<div class="datagrid-btn-separator"></div>
+
+			<div class="datagrid-btn-separator"></div>
+			
+			<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:delFile();">批量删除</a>
+			<a class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:loadFile();">批量下载结果文件</a>
+<!--
+		     <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:loadBilingualFile();">批量下载双语文件</a>
+			 -->
+			<a class="easyui-linkbutton" plain="true" iconCls="icon-reload" onclick="javascript:reload();">刷新</a>
+		  
+		</div>
+
+	</div>   <!--  end of tb -->
+		
+	    </div>   <!-- end of tablelist-->
+		
+	  </div>     <!-- end of content_wrapper -->
+
+   </div>      <!-- end of trans_wrapper -->
+ 
+ <!--  上传列表   -->
+<div id="getBoxy" class="modal hide">
+   <!--  action="__URL__/filetrans"-->
+		<div class="modal-header">
+			<button class="close" data-dismiss="modal">×</button>
+			<h3>待上传文件</h3><span style="color:red;">注意：文件翻译仅支持doc,docx,txt文件！</span>
+            <div id='warning_tip' style=" color:#F00;"></div>
+		</div>
+		<div class="modal-body"><div id="divStatus"></div>
+			<div id="fsUploadProgress"></div>
+		</div>
+		<div class="modal-footer">
+			<div id="sm_send_btn" onClick="subtrans();" class="btn btn-primary">开始上传</div>
+			<div id="sm_btn_cancel" onClick="sm_btn_cancel();" class="btn">取消</div>
+		</div>
+		
+</div>
+
+
+  
+</div>   <!-- end of main_wrapper -->
+
+
+<!--
+<div id="foot_wrapper">
+</div>-->
+
+
+
+</body>
+
+</html>

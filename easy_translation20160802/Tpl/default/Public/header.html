@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script  type="text/javascript">
+var app_url="__APP__";
+var public_url="__PUBLIC__";
+var ip_addr="10.28.0.169";
+var app_addr="10.28.0.169/easy_translation";
+function getCookie(c_name)
+{
+if (document.cookie.length>0)
+  {
+  c_start=document.cookie.indexOf(c_name + "=")
+  if (c_start!=-1)
+    { 
+    c_start=c_start + c_name.length+1 
+    c_end=document.cookie.indexOf(";",c_start)
+    if (c_end==-1) c_end=document.cookie.length
+    return unescape(document.cookie.substring(c_start,c_end))
+    } 
+  }
+	return ""
+}
+
+function setCookie(c_name,value,expiredays)
+{
+var exdate=new Date()
+exdate.setDate(exdate.getDate()+expiredays)
+document.cookie=c_name+ "=" +escape(value)+
+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+}
+
+</script>
+
+<title>简易翻译</title>
+<link rel="stylesheet" href="__PUBLIC__/Css/styles.css" type="text/css"/>
+<!--<link rel="stylesheet" href="__PUBLIC__/Css/box.css" type="text/css"/>-->
+
+<link type="text/css" href="__PUBLIC__/Js/themes/default/easyui.css" rel="stylesheet" />
+<link type="text/css" href="__PUBLIC__/Js/themes/icon.css" rel="stylesheet" />
+
+<link href="__PUBLIC__/Js/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+
+<!--
+<script type="text/javascript" src="__PUBLIC__/Js/jquery-1.4.2.min.js"></script> -->
+
+<script type="text/javascript" src="__PUBLIC__/Js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.easyui.min.js"></script>
+
+<!--<script type="text/javascript" src="__PUBLIC__/Js/main.js"></script>-->
+<script type="text/javascript" src="__PUBLIC__/Js/locale/easyui-lang-zh_CN.js"></script>
+
+<script src="__PUBLIC__/Js/bootstrap/js/bootstrap-modal.js" type="text/javascript"></script>  
+
+<script type="text/javascript" src="__PUBLIC__/Js/main.js" ></script>
+
+<script type="text/javascript" src="__PUBLIC__/swfupload/swfupload/swfupload.js"></script>
+
+<script type="text/javascript" src="__PUBLIC__/swfupload/js/swfupload.queue.js"></script>
+
+<script type="text/javascript" src="__PUBLIC__/swfupload/js/fileprogress.js"></script> 
+
+<script type="text/javascript" src="__PUBLIC__/swfupload/js/handlers.js"></script> 
+<!--
+<script src="__PUBLIC__/Js/bootstrap/js/bootstrap-transition.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Js/bootstrap/js/bootstrap.min.js"></script> 
+<script src="__PUBLIC__/Js/bootstrap/js/bootstrap-tooltip.js"></script>
+<script src="__PUBLIC__/Js/bootstrap/js/bootstrap-popover.js"></script>
+<script src="__PUBLIC__/Js/bootstrap/js/bootstrap-alert.js"></script>
+
+<script src="__PUBLIC__/Js/bootstrap/js/bootstrap.js"></script>
+
+<script src="__PUBLIC__/Js/bootstrap/js/bootstrap-typeahead.js"></script>   -->
+
+
+
+</head>
+

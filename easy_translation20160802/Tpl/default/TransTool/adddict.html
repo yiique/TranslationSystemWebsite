@@ -1,0 +1,73 @@
+<include file="Public:header" />
+<script>
+
+</script>
+</head>
+<body>
+<table width="550" border="1" class="modal-table">
+  <tr>
+    <td width="100" align="left">词典名称：</td>
+    <td width="400" align="left">
+      <label>
+        <input class="easyui-validatebox" style="width:400px;"type="text" id="dictname" name="title" validType="length[1,1000]" required="true"></input>
+      </label>
+    </td>
+  </tr>
+	<tr><td colspan="2" style="height:10px"><hr style="width:100%;border:1px dotted  #D9E4FF" /></td></tr>
+	<tr>
+    <td align="left">词典类型：</td>
+    <td align="left">
+		用户词典<input type="radio" name="rb1" id="userdict" checked />&nbsp;
+		专业词典<input type="radio" name="rb1" id="specialdict"/>
+	      
+	</td>
+  </tr>
+  <tr><td colspan="2" style="height:10px"><hr style="width:100%;border:1px dotted  #D9E4FF" /></td></tr>  
+  <tr>
+    <td align="left">应用类别：</td>
+    <td align="left">
+	<input id="type" class="easyui-combobox"  style="width:200px"
+        url="__APP__/Index/get_type_list" editable="false" required="true"
+        valueField="typename" textField="typevalue" />	
+	</td>
+  </tr>
+  <tr><td colspan="2" style="height:10px"><hr style="width:100%;border:1px dotted  #D9E4FF" /></td></tr>  
+  <tr>
+    <td align="left">翻译方向：</td>
+    <td align="left">
+	<input id="direction" class="easyui-combobox"  style="width:200px"
+        url="__APP__/Index/get_lan_list" editable="false" required="true"
+        valueField="lanname" textField="lanvalue" />	
+	</td>
+  </tr>
+  <tr><td colspan="2" style="height:10px"><hr style="width:100%;border:1px dotted  #D9E4FF" /></td></tr>  
+ <tr>
+    <td align="left">是否启用：</td>
+    <td align="left">
+		是<input type="radio" name="rb2" id="active" checked />&nbsp;
+		否<input type="radio" name="rb2" id="inactive"/>
+	      
+	</td>
+  </tr>
+  <tr><td colspan="2" style="height:10px"><hr style="width:100%;border:1px dotted  #D9E4FF" /></td></tr>  
+ <tr>
+    <td width="100" align="left">词典描述：</td>
+    <td width="400" align="left">
+      <label>
+        <input class="easyui-validatebox" style="width:400px;"type="text" id="description" name="description" validType="length[0,1000]"></input>
+      </label>
+    </td>
+  </tr>
+	<tr><td colspan="2" style="height:10px"><hr style="width:100%;border:1px dotted  #D9E4FF" /></td></tr>  
+  <tr>
+    <td colspan="2" align="center">
+     <a href="javascript:void(0);" onclick="add_dict();" class="easyui-linkbutton" id="submit" iconCls="icon-ok">保存</a>
+     &nbsp;
+     <a href="javascript:void(0);" onclick="cancel_add();" class="easyui-linkbutton" id="submit" iconCls="icon-cancel">取消</a>
+    
+     </td>
+  </tr>
+</table>
+
+
+</body>

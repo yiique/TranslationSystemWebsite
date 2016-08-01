@@ -1,0 +1,87 @@
+<include file="Public:header" />
+<link href="__PUBLIC__/Css/easy_index/login_index.css" rel="stylesheet" type="text/css" />
+<script>
+//按键监控
+	
+var app_url="__APP__";
+var app_public="__PUBLIC__";
+
+function keydown()
+{
+	e = event ? event :(window.event ? window.event : null);
+	if(event.keyCode==13){
+     	login();
+     }
+}
+function login()
+{
+	
+	if($('#username').val()=="")
+	{
+		$.messager.alert('提示','用户名不能为空','info');
+		$('#username').focus();
+		return false;
+		
+	}
+	if($('password').val()=="")
+	{
+		$.messager.alert('提示','密码不能为空','info');
+		$('#password').focus();
+		return false;
+	}
+	var ischecked="0";
+	//if(ID('rememberme').checked)
+		//ischecked="1";
+	
+    $.post('__URL__/checkLogin',{'username':$('#username').val(),'password':$('#password').val(),'ischecked':ischecked},function(data){
+		if(data.info=="yes")
+		{
+			location.href="__URL__/index";
+		}
+		else
+		{
+			$.messager.alert('错误',data.info,'error');
+		}
+
+    },'json');
+}
+	
+
+</script>
+
+
+</head>
+<body >
+<div id="login" class="">
+	<div id="login_form" class="login_form">	
+		
+		<ul class="clearfix"> 
+		
+			<li>
+			<label for="username" style="color:#000;"><span style= "font-family:'微软雅黑'">用户名&nbsp;</span></label> 
+			<input type="text" name="username" id="username" class=" r5px" value="<?php echo Cookie::get('username');?>" placeholder="请输入用户名" maxlength="12" />
+			</li>
+			</br>
+			<li>
+			<label for="password" style="color:#000;"><span style= "font-family:'微软雅黑'">密&nbsp;&nbsp;&nbsp;&nbsp;码</span></label> 
+			<input id="password" name="password" type="password" class=" r5px" value="<?php echo Cookie::get('password');?>" placeholder="请输入密码" maxlength="12"/>
+			</li>
+		
+		<li>
+		<div style="text-align:left;">
+		<a class="btn border" id="login_d" onClick="login()" > 登录</a>
+		
+		<a href="__URL__/register" class="btn border" id="regester"> 注册</a>	
+		</div>
+		</li>
+		</ul>
+	</div>	
+	<script>
+		ID("username").focus();
+		
+	</script>
+
+</div>
+
+</body>
+</html>

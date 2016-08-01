@@ -1,0 +1,125 @@
+@charset "utf-8";
+/* CSS Document */
+
+.user_title {
+margin:0 auto;
+height:30px;
+width:390px;
+margin-top:10px;
+text-align:center;
+font-size:18px;
+}
+
+#user_container {
+margin:0 auto;
+width:390px;
+height:230px;
+margin-top:40px;
+}
+
+.user_info {
+font-size: 16px;
+line-height: 30px;
+color: #333;
+float:left;
+width:80px;
+height:30px;
+margin-left:6px;
+}
+
+.user_content {
+margin-top:20px;
+}
+
+.user_input {
+margin-left:10px;
+width:290px;
+height:30px;
+line-height:30px;
+font-size:15px;
+
+-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+-webkit-transition: border linear 0.2s,box-shadow linear 0.2s;
+-moz-transition: border linear 0.2s,box-shadow linear 0.2s;
+-ms-transition: border linear 0.2s,box-shadow linear 0.2s;
+-o-transition: border linear 0.2s,box-shadow linear 0.2s;
+transition: border linear 0.2s,box-shadow linear 0.2s;
+
+border: 1px solid #CCC;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+}
+
+input {
+outline:none;
+}
+
+.modify_pass {
+margin-left:10px;
+height:30px;
+line-height:30px;
+}
+
+.modify_pass a {
+color: #005580;
+text-decoration:none;
+}
+
+.modify_pass a:hover,a:active {
+text-decoration:underline;
+}
+
+#submit_btn {
+    width:74px;
+    height:30px;
+	float:right;
+	margin-right:16px;
+	margin-top:20px;
+	
+	overflow:hidden;
+	color:#fff;
+    text-decoration: none;
+	display:inline;
+	
+	font-family:"微软雅黑";
+	font-size:15px;
+	border:none;
+	background-color:#0087c7;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+   /* text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+    border-bottom: 1px solid rgba(0,0,0,0.25);*/
+    cursor: pointer;
+}
+
+#submit_btn:hover {
+	border:none;
+	background-color:#065FB9;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+   /* text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+    border-bottom: 1px solid rgba(0,0,0,0.25);*/
+    cursor: pointer;
+}
+
+#login_modal {
+   width: 390px;
+   height:450px;
+   text-align: center;
+
+   margin:-200px auto auto -200px;
+   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.27);
+   padding: 1px;
+   border-radius: 5px;
+} /*  margin: -250px 0 0 -180px;*/
+ /**/
+.hidden {
+display: none;
+}

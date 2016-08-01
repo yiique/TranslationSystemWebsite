@@ -1,0 +1,115 @@
+@charset "utf-8";
+/* CSS Document */
+
+#upload_dict {
+    position:absolute;
+    width:100px;
+    height:25px;
+	z-index:100;	
+	left:450px;
+	top:100px;
+	text-align:center;
+	vertical-align:middle;
+	overflow:hidden;
+	
+	font-family:"微软雅黑";
+	font-size:15px;
+}
+
+.upload_dict {
+   border:none;
+   background:none;
+}
+
+.retrivel {
+    width: 600px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #D9E4FF;
+}
+.retrivel-content {
+    width: 970px;
+    word-wrap: break-word;
+    word-break: normal;
+    text-align: left;
+    margin: auto;
+}
+
+#table_list {
+    position:relative;
+    width:980px;
+	min-height:360px;
+	max-height:auto;
+	overflow-x: hidden;    
+    overflow-y: auto;
+	margin:10px auto;
+}
+
+
+#listdict {
+    margin:0 auto;
+}
+
+#listitem {
+    margin:0 auto;
+}
+
+.dict_name,.trans_dir,.transtype {
+    float:left;
+    display:inline;
+    margin-top:20px;
+    width: 500px;
+    margin-left:0px;
+    border:none;
+}
+
+input {
+    width:200px;
+}
+
+#win-dictitem{
+   width:770px;
+   height:500px;
+   overflow:hidden;
+   margin-right:200px;
+}
+
+.modal-body {
+   overflow-x:hidden;
+   overflow-y:auto;
+   /*add by yangli 2015-07-12*/
+  max-height: 500px;
+}
+
+
+#win-dictitem a.progressCancel {
+	font-size: 0;
+	display: block;
+	height: 14px;
+	width: 14px;
+	background-image:url(../../swfupload/images/u258_original.png);
+	background-repeat: no-repeat;
+	background-position: -1px -2px;
+	float: right;
+}
+#win-dictitem .progressBarInProgress, #win-dictitem .progressBarComplete,#win-dictitem .progressBarError {
+	font-size: 0;
+	width: 0%;
+	height: 2px;
+	background-color:#CCCCCC;
+	margin-top: 10px;
+
+}
+
+#win-dictitem .progressName{
+	font-size:18px;
+	float:left;
+}
+
+#item_blank {
+    height:10px;
+}

@@ -1,0 +1,49 @@
+@charset "utf-8";
+/* CSS Document */
+
+.retrivel {
+    width: 600px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #D9E4FF;
+}
+.retrivel-content {
+    width: 970px;
+    word-wrap: break-word;
+    word-break: normal;
+    text-align: left;
+    margin: auto;
+}
+
+#table_list {
+    position:relative;
+    width:980px;
+	min-height:330px;
+	max-height:auto;
+	overflow-x: hidden;    
+    overflow-y: auto;
+	margin:10px auto;
+}
+
+
+#listdict {
+margin:0 auto;
+}
+
+.org_lan,.tag_lan,.transdir,.transtype {
+float:left;
+display:inline;
+width:260px;
+}
+
+input:read-only{
+	cursor: not-allowed;
+	color: #999;
+	border: 1px solid #ccc;
+	box-shadow: 0 0 1px #C67605;
+	background-color: #eee;
+}
