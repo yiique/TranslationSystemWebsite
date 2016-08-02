@@ -2,9 +2,8 @@
 <include file="Public:menu" />
 
 <script  type="text/javascript">
-var app_url="__APP__";
-var public_url="__PUBLIC__";
-
+	var app_url="__APP__";
+	var public_url="__PUBLIC__";
 </script>
 
 <link href="__PUBLIC__/Css/easy_user/addtransdir.css" rel="stylesheet" type="text/css" />
@@ -14,181 +13,146 @@ var public_url="__PUBLIC__";
 <div id="blank"></div>
 
 <div id="main_wrapper">
-   <div id="trans_wrapper" >
- 
-  
-	  <div id="content_wrapper">
-       	<div id="table_list">
-		
-		<table id="listdict" toolbar="#tb3">
-		
-	    </table>
-		
-	   <div id="tb3" style="text-align:left;padding:5px 0 0 5px;height:auto">
-		
-		 <div style="padding:2px 5px 2px 5px">			
-			<div>	
-				
-		<!--		<a id="sm_btn_add_dict"  plain="true" onClick="javascript:show_add_dict();"></a>  -->
-				
-				
-				<a class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="modify_pass();">添加翻译方向</a>
-				
-				
-	<!--			<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-no" onClick="javascript:bat_deactive();">批量禁用</a>  -->
-				
-				
-				<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove" onClick="javascript:bat_del();">批量删除</a>
-				
-				
-	<!--			<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-cut" onClick="javascript:bat_load();">批量下载</a>
-				
-				
-				<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-search" onClick="javascript:retrivel_item();">检索词条</a>	-->			
-				
-				
-				<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-reload" onClick="javascript:refresh_list();">刷新</a>
-			</div>
-			
-		</div>
-		
-	</div>
-	</div>
-	  </div>
+	<div id="trans_wrapper" >
+		<div id="content_wrapper">
+       		<div id="table_list">
+				<table id="listdict" toolbar="#tb3">
+	    		</table>
 
-   </div>
+	   			<div id="tb3" style="text-align:left;padding:5px 0 0 5px;height:auto">
+		
+		 			<div style="padding:2px 5px 2px 5px">			
+						<div>	
+							<a class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="modify_pass();">添加翻译方向</a>
+							<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove" onClick="javascript:bat_del();">批量删除</a>
+							<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-reload" onClick="javascript:refresh_list();">刷新</a>
+						</div>
+					</div>
+		
+				</div>
+			</div>
+	  	</div>
+	</div>
    
-    <!--  上传列表   -->
-<div id="getBoxy" class="modal hide fade">
-   <!--  action="__URL__/filetrans"-->
+    <!--添加翻译方向--> 
+	<div id="getBoxy" class="modal hide fade">
 		<div class="modal-header">
 			<button class="close" data-dismiss="modal">×</button>
 			<h3 style="display:inline;">添加翻译方向</h3>
 			<div style="display:inline;color:red;" class="alert alert-error"> (注意:操作权限仅限管理员)</div>
 		</div>
+
 		<div  class="modal-body">
 			<div class="control-group">
-			<div class="controls">
-			     <div class="org_lan">
-				    源 语 言：
-					<!--<input class="org_input" id="srclan" />-->
-					<select id="srclan" class="easyui-combobox" name="dept" style="width:140px;">
-						<option>自定义语种</option>
-						<option value="english">english</option>  
-						<option value="uyghur">uyghur</option>
-						<option value="korean">korean</option>
-						<option value="tibet">tibet</option>
-						<option value="thai">thai</option>
-						<option value="mongolian">mongolian</option>
-						<option value="newmongolian">newmongolian</option>
-						<option value="vietnam">vietnam</option>
-						<option value="russian">russian</option>
-						<option value="japanese">japanese</option>
-					</select>
-				 </div>
+				<div class="controls">
+			    	<div class="org_lan">
+				    	源 语 言：
+						<select id="srclan" class="easyui-combobox" name="dept" style="width:140px;">
+							<option>自定义语种</option>
+							<option value="english">english</option>  
+							<option value="uyghur">uyghur</option>
+							<option value="korean">korean</option>
+							<option value="tibet">tibet</option>
+							<option value="thai">thai</option>
+							<option value="mongolian">mongolian</option>
+							<option value="newmongolian">newmongolian</option>
+							<option value="vietnam">vietnam</option>
+							<option value="russian">russian</option>
+							<option value="japanese">japanese</option>
+						</select>
+					</div>
 				  
-				<div class="tag_lan">
-				    目标语言：
-					<input class="tag_input" id="tgtlan" value="chinese" readonly />
+					<div class="tag_lan">
+				    	目标语言：
+						<input class="tag_input" id="tgtlan" value="chinese" readonly />
+					</div>
 				</div>
-			</div>
 	        
-			<div class="controls">  <br /> <br />  </div>
+				<div class="controls">  <br /> <br />  </div>
 			
-			<div class="controls">
-				<div class="transdir">
-					翻译方向：
-					<input class="transdir_input" id='trandir' placeholder="此项可为空" />
-				 </div>
-				 <div class="transtype">
-					切分方式：
-					<select id="cc1" class="easyui-combobox" name="dept" style="width:140px;">  
-					    <option value=1>按词切分</option>  
-					    <option value=0>按字切分</option>   
-					</select>
-				</div>
+				<div class="controls">
+					<div class="transdir">
+						翻译方向：
+						<input class="transdir_input" id='trandir' placeholder="此项可为空" />
+					</div>
+					<div class="transtype">
+						切分方式：
+						<select id="cc1" class="easyui-combobox" name="dept" style="width:140px;">  
+					    	<option value=1>按词切分</option>  
+					    	<option value=0>按字切分</option>   
+						</select>
+					</div>
+				</div>				   		
 			</div>
-								   
-			</div>			
 		</div>
+
 		<div class="modal-footer">
-		   
-		 <a href="#" class="btn" data-dismiss="modal" >关闭</a>
-         <a href="#" class="btn btn-primary" data-dismiss="modal" onClick="javascript:insert_transdir();">确认添加</a>
+			<a href="#" class="btn" data-dismiss="modal" >关闭</a>
+			<a href="#" class="btn btn-primary" data-dismiss="modal" onClick="javascript:insert_transdir();">确认添加</a>
 		</div>
-		
-</div>
-  
-<div id="getBoxy2" class="modal hide fade">
-   <!--  action="__URL__/filetrans"-->
+	</div>
+
+	<!--修改翻译方向-->  
+	<div id="getBoxy2" class="modal hide fade">
 		<div class="modal-header">
 			<button class="close" data-dismiss="modal">×</button>
 			<h3 style="display:inline;">更改翻译方向</h3>
 			<div style="display:inline;color:red;" class="alert alert-error"> (注意:操作权限仅限管理员)</div>
 		</div>
+
 		<div  class="modal-body">
 			<div class="control-group">
-			<div class="controls">
-				<input class="org_input" id="cdirid" style="display:none;"/>
-				<div class="org_lan">
-					源&nbsp;语 &nbsp;言：
-					<!--<input class="org_input" id="csrclan" />-->
-					<select id="csrclan" class="easyui-combobox" name="dept" style="width:140px;">
-						<option>自定义语种</option>
-						<option value="english">english</option>  
-						<option value="uyghur">uyghur</option>
-						<option value="korean">korean</option>
-						<option value="tibet">tibet</option>
-						<option value="thai">thai</option>
-						<option value="mongolian">mongolian</option>
-						<option value="newmongolian">newmongolian</option>
-						<option value="vietnam">vietnam</option>
-						<option value="russian">russian</option>
-						<option value="japanese">japanese</option>
-					</select>
+				<div class="controls">
+					<input class="org_input" id="cdirid" style="display:none;"/>
+					<div class="org_lan">
+						源&nbsp;语 &nbsp;言：
+						<select id="csrclan" class="easyui-combobox" name="dept" style="width:140px;">
+							<option>自定义语种</option>
+							<option value="english">english</option>  
+							<option value="uyghur">uyghur</option>
+							<option value="korean">korean</option>
+							<option value="tibet">tibet</option>
+							<option value="thai">thai</option>
+							<option value="mongolian">mongolian</option>
+							<option value="newmongolian">newmongolian</option>
+							<option value="vietnam">vietnam</option>
+							<option value="russian">russian</option>
+							<option value="japanese">japanese</option>
+						</select>
+					</div>
+
+					<div class="tag_lan">
+						目标语言：
+						<input class="tag_input" id="ctgtlan" value="chinese" readonly />
+					</div>
 				</div>
 
-				<div class="tag_lan">
-					目标语言：
-					<input class="tag_input" id="ctgtlan" value="chinese" readonly />
-				</div>
-			</div>
+				<div class="controls">  <br /> <br />  </div>
 
-			<div class="controls">  <br /> <br />  </div>
-
-			<div class="controls">
-				<div class="transdir">
-					翻译方向：
-					<input class="transdir_input" id='ctrandir' placeholder="此项可为空" />
-				</div>
-				<div class="transtype">
-					切分方式：
-					<select id="cc2" class="easyui-combobox" name="dept" style="width:140px;"> 
-						<option value=0>按字切分</option>   					
-					    <option value=1>按词切分</option>  
-					</select>
-				</div>
-			</div>
-								   
+				<div class="controls">
+					<div class="transdir">
+						翻译方向：
+						<input class="transdir_input" id='ctrandir' placeholder="此项可为空" />
+					</div>
+					<div class="transtype">
+						切分方式：
+						<select id="cc2" class="easyui-combobox" name="dept" style="width:140px;"> 
+							<option value=0>按字切分</option>   					
+					    	<option value=1>按词切分</option>  
+						</select>
+					</div>
+				</div>				   
 			</div>			
 		</div>
+
 		<div class="modal-footer">
-		   
-		 <a href="#" class="btn" data-dismiss="modal" >关闭</a>
-         <a href="#" class="btn btn-primary" data-dismiss="modal" onClick="javascript:update_transdir();">确认修改</a>
+			<a href="#" class="btn" data-dismiss="modal" >关闭</a>
+        	<a href="#" class="btn btn-primary" data-dismiss="modal" onClick="javascript:update_transdir();">确认修改</a>
 		</div>
-		
-</div> 
+	</div> 
 
    
 </div>  <!--  end of main_wrapper -->
 
-<!--
-<div id="foot_wrapper">
-</div>-->
-
-
-
 </body>
-
 </html>
