@@ -1,138 +1,8 @@
 var reg_transdir =/^\d+$/;
 
-function trans()
-{
-	$('#tags').tagsInput();
-	//$("#result").html("<font color='red'>该语种翻译不存在</font>");
-	var dirid=$("#direction").combobox('getValue');
-	var content=$("#input_area").val();
-	//var content=document.getElementById('input_area').innerText;
-	if(dirid == "" || !reg_transdir.test(dirid)){
-		$("#result").html("<font color='red'>请选择有效翻译方向</font>");
-	}
-	else if(content==""){ 
-		$("#result").html("<font color='red'>请输入翻译内容</font>");
-	}
-	else{
-		//alert(dirid);
-		//存储数据
-		if(window.sessionStorage){
-			window.sessionStorage.setItem('otrans_input', content);
-		}
-		
-		$("button.trans_btn").eq(0).text('正在翻译...');
-		$("#result").html("");
-		$.post(app_url+'/Trans/tranSent',{'dirid':dirid,'content':content},function(data){
-			//alert(data.info);
-			//if(data.info.indexOf("<ResCode>21</ResCode>")!=-1)
-			var test=data.data;
-			if(window.sessionStorage){
-				window.sessionStorage.setItem('otrans_output', test.join('|||'));
-			}
-			/*
-			var st;
-			if(document.getElementById("rememberme").checked)
-				st=0;
-			else
-				st=1;
-			*/
-			$("button.trans_btn").eq(0).text('翻译完成');
-
-			var i,j,words;
-			var input_area = $("#input_area");
-			var output_area = $('#result');
-			$('#trans-online-copy').data('data-clipboard-text', test.join('\n'));
-			output_area.html('');
-			for(i=0;i<test.length;i++)
-			{
-				if(test[i] == '')
-					words=$("<br />");
-				else{
-					words=$("<div class='mul' ></div>");
-					words.append(test[i]);
-				}
-				output_area.append(words);
-		   /*
-				var len=test[i].length;len=len-1;
-				if(test[i][len]=='<br/>')
-				{
-					var words=$("<div class='mul' style='float: left' ></div><br/>");
-				}
-				else
-				{
-					var words=$("<div class='mul' style='float: left' ></div>");
-				}
-				var sp=$("<span>"+test[i][0]+"</span>");
-				words.append(sp);
-	           // $('ul').hide();
-				var segs=$("<ul class='segs trans_wrapper'></ul>");
-				for(j=0;j<test[i].length && j<5;j++)
-				{
-					var seg=$("<li style='list-style-type:none'>"+test[i][j]+"</li>");
-					segs.append(seg);segs.hide();
-					seg.click(function(){
-					//alert($(this).text());
-					$(this).parent().parent().children("span").text($(this).text());
-					});
-				}
-			
-				words.append(segs);
-				
-				if(st==0)
-					words.append("&nbsp;");
-				segs.hide();
-				$("#result").append(words);
-				words.click(function(){
-					//alert(words.attr("id"));
-					$(this).children("ul").show();
-			
-					$(this).children("ul").css("background-color","white");
-					$(this).children("span").css({
-					"background-color":"white",
-					"border":"1px solid blue"
-					});
-					});
-				words.mouseleave(function(){
-					//alert(words.attr("id"));
-					$(this).children("ul").hide();
-					$(this).children("span").css({
-					"background-color":"white",
-					"border":"0px solid blue"
-					
-					});
-					
-					
-					});
-				words.mouseover(function(){
-					//alert(words.attr("id"));
-					$(this).children("span").css("background-color","yellow");
-					});
-				*/
-			}
-			if(output_area[0].scrollHeight > input_area[0].scrollHeight){
-				input_area.css('height',output_area[0].scrollHeight);
-				output_area.css('height',output_area[0].scrollHeight);
-			}
-			$("button.trans_btn").eq(0).text('开始翻译');
-		},'json');
-	}
-}
-
-function input_text() {
-		//$(".input_area *").removeAttr("style");
-		
-		if($(".input_area").val()=="")
-		{
-			$(".clear").hide();
-		    $("#result").html("");
-		}
-		else {
-			$(".clear").fadeIn("slow");
-		}
-	}
-
 $(function (){
 	var default_select=null;
+
 	if(window.localStorage){
 		default_select = window.localStorage.getItem('otrans_direction');
 	}
@@ -171,6 +41,7 @@ $(function (){
 			}
 		}
 	}
+
 	//加载数据
 	$("#direction").combobox({
 		onLoadSuccess:function(){
@@ -193,11 +64,9 @@ $(function (){
 	$(".input_area").bind("keyup",input_text);
 	
 	$(".clear").click(function(){
-		 $(".input_area").val("");				//清空输入内容
-				//清空翻译结果
-		 $("#result").html("");
-		//$(this).hide();							//隐藏关闭按钮
-		 $(".clear").hide();		//隐藏领域选择
+		$(".input_area").val("");			//清空输入内容		
+		$("#result").html("");				//清空翻译结果
+		$(".clear").hide();					//隐藏领域选择
 		//清除数据
 		if(window.sessionStorage){
 			window.sessionStorage.removeItem('otrans_input');
@@ -224,7 +93,7 @@ $(function (){
 	});
 	
 	var copy_client = new ZeroClipboard($('#trans-online-copy'));
-	copy_client.on( 'ready', function(event) {  //  加载swf
+	copy_client.on( 'ready', function(event) {  	//  加载swf
 		copy_client.on('copy', function(event) {
 			// 添加复制操作
 			event.clipboardData.setData('text/plain', $('#trans-online-copy').data('data-clipboard-text'));
@@ -239,3 +108,67 @@ $(function (){
 		});
 	});
 });
+
+// function trans
+function trans()
+{
+	$('#tags').tagsInput();
+	var dirid=$("#direction").combobox('getValue');
+	var content=$("#input_area").val();
+	if(dirid == "" || !reg_transdir.test(dirid)){
+		$("#result").html("<font color='red'>请选择有效翻译方向</font>");
+	}
+	else if(content==""){ 
+		$("#result").html("<font color='red'>请输入翻译内容</font>");
+	}
+	else{
+		//存储数据
+		if(window.sessionStorage){
+			window.sessionStorage.setItem('otrans_input', content);
+		}
+		
+		$("button.trans_btn").eq(0).text('正在翻译...');
+		$("#result").html("");
+		$.post(app_url+'/Trans/tranSent',{'dirid':dirid,'content':content},function(data){
+			var test=data.data;
+			if(window.sessionStorage){
+				window.sessionStorage.setItem('otrans_output', test.join('|||'));
+			}
+			$("button.trans_btn").eq(0).text('翻译完成');
+
+			var i,j,words;
+			var input_area = $("#input_area");
+			var output_area = $('#result');
+			$('#trans-online-copy').data('data-clipboard-text', test.join('\n'));
+			output_area.html('');
+			for(i=0;i<test.length;i++)
+			{
+				if(test[i] == '')
+					words=$("<br />");
+				else{
+					words=$("<div class='mul' ></div>");
+					words.append(test[i]);
+				}
+				output_area.append(words);
+			}
+			if(output_area[0].scrollHeight > input_area[0].scrollHeight){
+				input_area.css('height',output_area[0].scrollHeight);
+				output_area.css('height',output_area[0].scrollHeight);
+			}
+			$("button.trans_btn").eq(0).text('开始翻译');
+		},'json');
+	}
+}
+
+// function input_text
+function input_text() {
+		
+	if($(".input_area").val()=="")
+	{
+		$(".clear").hide();
+		$("#result").html("");
+	}
+	else {
+		$(".clear").fadeIn("slow");
+	}
+}

@@ -1,8 +1,8 @@
 <?php
+class FileAction extends Action
+{
 	
-	class FileAction extends Action
-	{
-	
+	// 展示文件列表
 	function listFile()
 	{
 	    if(Session::get('username')=="")
@@ -13,36 +13,255 @@
 		
 		$page = isset($_POST['page']) ? intval($_POST['page']) : 1;
 		$rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
-	
 		$offset = ($page-1)*$rows;
+
 		$dao=M("Filetrans");
     	$map["isdeleted"]= 0;
         $map["username"]=Session::get("username");
-        
         if(isset($_GET["filename"]))
         {
         	$map["filename"]= array('like','%'.$_GET["filename"].'%');
         }
+
         $collection = $dao->where($map);
 		$count = $collection->count();
-        // dump($map);
+
      	if(!isset($_POST["sortName"])){
-			//->join('transdir ON filetrans.srclanguage = transdir.srclanguage and filetrans.tgtlanguage = transdir.tgtlanguage')
 			$rs=$collection->order('subtime desc')->limit($offset.','.$rows)->select();
 		}
         else{
 			$rs=$collection->order($_POST["sortName"].' '.$_POST["sortOrder"])->limit($offset.','.$rows)->select();
 		}
-        //  dump($rs);
+
         $rows = array();
 		if($count==0)
 			$result["rows"]=$rows;
 		else
 			$result["rows"]=$rs;
     	$result["total"]=$count;
-		// dump($list);
+
         echo json_encode($result);
 	}
+
+	// 点击文件名下载原文件
+	function download()
+	{
+			/*if(Session::get('username')=="")
+	    	{
+	    		$this->redirect('Login/');
+	    		return;
+	    	}
+			//sname:保存位置
+			//fname:显示下载名称
+			if(isset($_GET["sname"]))
+				$sname=$_GET["sname"];
+			else if(isset($_POST["sname"]))
+				$sname=$_POST["sname"];
+			if(isset($_GET["fname"]))
+				$fname=$_GET["fname"];
+			else if(isset($_POST["fname"]))
+				$fname=$_POST["fname"];			
+			import("@.ORG.Http");
+			Http::download(base64_decode($sname),$fname);
+			*/
+		
+		if(isset($_GET["sname"]))
+			$sname=$_GET["sname"];
+		else if(isset($_POST["sname"]))
+			$sname=$_POST["sname"];
+
+		if(isset($_GET["fname"]))
+			$fname=urlencode(htmlspecialchars(urldecode($_GET["fname"])));
+		else if(isset($_POST["fname"]))
+			$fname=$_POST["fname"];
+
+		if(is_file("Public/Upload/".$sname))
+		{
+			import("@.ORG.Http");
+			Http::download( "Public/Upload/".$sname,$fname);
+		}
+		else if(is_file(C("FILE_PATH").$sname))
+		{
+			import("@.ORG.Http");
+			Http::download( C("FILE_PATH").$sname,$fname);
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//文件上传
+	function file_upload(){
+		//test
+		$this->ajaxReturn("test","no",0);	
+
+		if(isset($_POST["type"]))
+			$type=$_POST["type"];
+
+		if(isset($_POST["username"]))
+			$username=$_POST["username"];
+		
+		Session::set('username',$username);
+		
+		$socketType=$_POST["type"];
+		
+		$save_path = C("FILE_PATH");
+		$upload_name = "Filedata";
+	    $file_info=pathinfo($_FILES[$upload_name]["name"]);
+		
+		//获取文件扩展名
+		$file_ext=$file_info["extension"];
+		if($file_ext=="htm")
+			$file_ext="html";
+	   	$file_name=get_guid().".".$file_ext;//.$_FILES[$upload_name]["name"];
+	   
+	   	if(!is_dir($save_path))
+	   	{
+	   		die(json_encode(array(0 => "1",1 => '上传路径不存在')));
+	   	}
+		if (!@move_uploaded_file($_FILES[$upload_name]["tmp_name"], $save_path.$file_name)) {
+			die(json_encode(array(0 => "1",1 => '上传路径不存在')));
+		}
+		else
+		{
+			
+			$fileUrl="http://localhost/product/easy_translation/Public/Upload/files/".$file_name;
+			//通信
+			$socket=post_file($username, $socketType,$fileUrl);
+				
+			//检测报文长度是否完整		
+			$f_p=strpos( $socket,":"); 
+			if(!$f_p)
+				$this->ajaxReturn("报文错误","no",0);		
+			$e_p=strpos( $socket,"Content-Length:");		
+			if(!$e_p)
+				$this->ajaxReturn("报文错误","no",0);
+			$len=substr( $socket,$f_p+1,$e_p-1-$f_p);		
+			$socket=strstr( $socket,"{");
+			if($len!=strlen( $socket))
+				$this->ajaxReturn("报文错误","no",0);
+					
+			$obj=json_decode($socket);
+			$arr=$obj->{'fileID'};
+			$err=$obj->{'errorCode'};
+				
+			$f_oid=json_encode($arr[0]);
+			$f_id=substr($f_oid,strpos( $f_oid,",\"")+2,36);
+				
+			//数据库操作--online_file
+			$dao=M("Filetrans");
+			$cond["username"]=$username;
+			$cond["filename"]=$_FILES[$upload_name]["name"];
+			$cond["isdeleted"]=0;
+			$dr=$dao->where($cond)->find();
+			if(!$dr){
+				$data=array(
+					"username"=>$username,
+					"filename"=>$_FILES[$upload_name]["name"],
+					"fileext"=>$file_ext,
+					"subtime"=>date('Y-m-d'),
+					"isdeleted"=>0,
+					"transtatus"=>"100%",
+					"domain"=>$_POST["type"],
+					"guid"=>$f_id
+				);
+				$dao->add($data);
+				$v_con["guid"]=$f_id;
+				$v_id=$dao->where($v_con)->find();
+					
+				$ver=M("File_versions");
+				$fdata=array(
+					"tid"=>$v_id["tid"],
+					"username"=>$username,
+					"filename"=>$_FILES[$upload_name]["name"],
+					"fileID"=>$f_id,
+					"oldID"=>$f_id,
+					"date"=>date('Y-m-d G:i:s'),
+					"version"=>1,
+					"lastver"=>1
+				);
+				if(!$ver->add($fdata))
+				{
+					die(json_encode(array(0 =>"数据库写入失败",1 =>1)));
+					exit(0);
+				}
+				else
+					die(json_encode(array(0 => $f_id,1 =>0)));
+			}
+			else{					
+				$v_cond["tid"]=$dr["tid"];
+				$v_cond["isdeleted"]=0;
+					
+				$ver=M("File_versions");
+				$r=$ver->where($v_cond)->select();//dump($ver);
+				$vr["lastver"]=0;
+						
+				$v=count($r)+1;					//最新版本号
+				$ver->where($v_cond)->save($vr);		//之前版本lastver设为0
+					
+				$fdata=array(
+					"tid"=>$dr["tid"],
+					"username"=>$username,
+					"filename"=>$_FILES[$upload_name]["name"],
+					"fileID"=>$f_id,
+					"oldID"=>$dr["guid"],
+					"date"=>date('Y-m-d G:i:s'),
+					"version"=>$v,
+					"lastver"=>1
+				);
+				if(!$ver->add($fdata))
+				{
+					die(json_encode(array(0 =>"数据库写入失败",1 =>1)));
+					exit(0);
+				}
+				else
+					die(json_encode(array(0 => $f_id,1 =>0)));
+			}
+		}
+			
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 	
 		//文件翻译登陆
 /*		public function index(){
@@ -292,140 +511,7 @@
 			$this->display("file_admin");
 		}
 		
-		//文件上传
-		function file_upload(){
-		if(isset($_POST["type"]))
-			$type=$_POST["type"];
-		/*if(isset($_GET["username"]))
-			$username=$_GET["username"];*/
-		if(isset($_POST["username"]))
-			$username=$_POST["username"];
 		
-		Session::set('username',$username);
-		//$username=Session::is_set('username');
-		
-		$socketType=$_POST["type"];
-		
-		$save_path = C("FILE_PATH");
-		$upload_name = "Filedata";
-	    $file_info=pathinfo($_FILES[$upload_name]["name"]);
-		
-		//获取文件扩展名
-		$file_ext=$file_info["extension"];
-		if($file_ext=="htm")
-			$file_ext="html";
-	   	$file_name=get_guid().".".$file_ext;//.$_FILES[$upload_name]["name"];
-	   
-	   	if(!is_dir($save_path))
-	   	{
-	   		die(json_encode(array(0 => "1",1 => '上传路径不存在')));
-	   	}
-		if (!@move_uploaded_file($_FILES[$upload_name]["tmp_name"], $save_path.$file_name)) {
-			die(json_encode(array(0 => "1",1 => '上传路径不存在')));
-		}
-		else
-		{
-			
-			$fileUrl="http://10.28.0.169/patent_online/Public/Upload/files/".$file_name;
-				//通信
-				$socket=post_file($username, $socketType,$fileUrl);
-				
-				//检测报文长度是否完整		
-				$f_p=strpos( $socket,":"); 
-				if(!$f_p)
-					$this->ajaxReturn("报文错误","no",0);		
-				$e_p=strpos( $socket,"Content-Length:");		
-				if(!$e_p)
-					$this->ajaxReturn("报文错误","no",0);
-				$len=substr( $socket,$f_p+1,$e_p-1-$f_p);		
-				 $socket=strstr( $socket,"{");
-				if($len!=strlen( $socket))
-					$this->ajaxReturn("报文错误","no",0);
-					
-				$obj=json_decode($socket);
-				$arr=$obj->{'fileID'};
-				$err=$obj->{'errorCode'};
-				
-				$f_oid=json_encode($arr[0]);
-				$f_id=substr($f_oid,strpos( $f_oid,",\"")+2,36);
-				
-				//数据库操作--online_file
-				$dao=M("Filetrans");
-				$cond["username"]=$username;
-				$cond["filename"]=$_FILES[$upload_name]["name"];
-				$cond["isdeleted"]=0;
-				$dr=$dao->where($cond)->find();
-				if(!$dr){
-					$data=array(
-						"username"=>$username,
-						"filename"=>$_FILES[$upload_name]["name"],
-						"fileext"=>$file_ext,
-						"subtime"=>date('Y-m-d'),
-						"isdeleted"=>0,
-						"transtatus"=>"100%",
-						"domain"=>$_POST["type"],
-						"guid"=>$f_id
-					);
-					$dao->add($data);
-					$v_con["guid"]=$f_id;
-					$v_id=$dao->where($v_con)->find();
-					
-					$ver=M("File_versions");
-					$fdata=array(
-					"tid"=>$v_id["tid"],
-					"username"=>$username,
-					"filename"=>$_FILES[$upload_name]["name"],
-					"fileID"=>$f_id,
-					"oldID"=>$f_id,
-					"date"=>date('Y-m-d G:i:s'),
-					"version"=>1,
-					"lastver"=>1
-					);
-					if(!$ver->add($fdata))
-					{
-						die(json_encode(array(0 =>"数据库写入失败",1 =>1)));
-						exit(0);
-					}
-					else
-						die(json_encode(array(0 => $f_id,1 =>0)));
-				}
-				else{
-					//数据库操作--online_version
-					//$do=M("Filetrans");
-					//$v_con["guid"]=$f_id;
-					//$v_id=$do->where($v_con)->find();//dump($dao);
-					
-					$v_cond["tid"]=$dr["tid"];
-					$v_cond["isdeleted"]=0;
-					
-					$ver=M("File_versions");
-					$r=$ver->where($v_cond)->select();//dump($ver);
-					$vr["lastver"]=0;
-						
-					$v=count($r)+1;					//最新版本号
-					$ver->where($v_cond)->save($vr);		//之前版本lastver设为0
-					
-					$fdata=array(
-						"tid"=>$dr["tid"],
-						"username"=>$username,
-						"filename"=>$_FILES[$upload_name]["name"],
-						"fileID"=>$f_id,
-						"oldID"=>$dr["guid"],
-						"date"=>date('Y-m-d G:i:s'),
-						"version"=>$v,
-						"lastver"=>1
-					);
-					if(!$ver->add($fdata))
-					{
-						die(json_encode(array(0 =>"数据库写入失败",1 =>1)));
-						exit(0);
-					}
-					else
-						die(json_encode(array(0 => $f_id,1 =>0)));
-				}
-			}
-			
-		}
 		
 		//删除文件
 		function file_del(){
@@ -806,66 +892,7 @@
 			$status=$subre->{'errorCode'};
 			$this->ajaxReturn($subre,"yes",$status);
 		}
-		//下载文件函数，sname为文件路径，fname为对话框中显示保存的文件名字
-		function download()
-		{
-			/*if(Session::get('username')=="")
-	    	{
-	    		$this->redirect('Login/');
-	    		return;
-	    	}
-			//sname:保存位置
-			//fname:显示下载名称
-			if(isset($_GET["sname"]))
-				$sname=$_GET["sname"];
-			else if(isset($_POST["sname"]))
-				$sname=$_POST["sname"];
-			if(isset($_GET["fname"]))
-				$fname=$_GET["fname"];
-			else if(isset($_POST["fname"]))
-				$fname=$_POST["fname"];			
-			import("@.ORG.Http");
-			Http::download(base64_decode($sname),$fname);
-			*/
-			
-			//sname:保存位置
-		//fname:显示下载名称
 		
-		
-		if(isset($_GET["sname"]))
-			$sname=$_GET["sname"];
-		else if(isset($_POST["sname"]))
-			$sname=$_POST["sname"];
-		if(isset($_GET["fname"]))
-			$fname=urlencode(htmlspecialchars(urldecode($_GET["fname"])));
-		else if(isset($_POST["fname"]))
-			$fname=$_POST["fname"];
-		if(is_file("Public/Upload/".$sname))
-		{
-			import("@.ORG.Http");
-		//	Http::download("Public/Upload/".$sname,$fname);
-			Http::download( "Public/Upload/".$sname,$fname);
-		}
-		else if(is_file(C("FILE_PATH").$sname))
-		{
-			import("@.ORG.Http");
-		//	Http::download("Public/Upload/".$sname,$fname);
-			Http::download( C("FILE_PATH").$sname,$fname);
-		}
-		else if(is_file(C("EVAL_PATH").$sname))
-		{
-			import("@.ORG.Http");
-		//	Http::download("Public/Upload/".$sname,$fname);
-			Http::download( C("EVAL_PATH").$sname,$fname);
-		}
-		else if(is_file(C("ALIGN_FILE_PATH").$sname))
-		{
-			import("@.ORG.Http");
-		//	Http::download("Public/Upload/".$sname,$fname);
-			Http::download( C("ALIGN_FILE_PATH").$sname,$fname);
-		}
-		
-		}
 	
 	//打包下载
 	function zip_download()
