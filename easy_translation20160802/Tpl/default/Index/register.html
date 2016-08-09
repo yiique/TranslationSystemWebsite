@@ -1,100 +1,92 @@
 <include file="Public:header" />
 <link href="__PUBLIC__/Css/easy_index/register_index.css" rel="stylesheet" type="text/css" />
+
 <script>
-var app_url="__APP__";
-var app_public="__PUBLIC__";
-function keydown()
-{ 
-	e = event ? event :(window.event ? window.event : null); 
-	if(event.keyCode==13){ 
-     	login();
-     }
-}
-function register()
-{
+	var app_url="__APP__";
+	var app_public="__PUBLIC__";
+	function keydown()
+	{ 
+		e = event ? event :(window.event ? window.event : null); 
+		if(event.keyCode==13){ 
+     		register();
+     	}
+	}
+	function register()
+	{
 	
-	if($("#username").val()=="")
-	{
-		$.messager.alert('提示','用户名不能为空','info');
-		$("#username").focus();
-		return false;
-	}
-	if($("#password").val()=="")
-	{
-		$.messager.alert('提示','密码不能为空','info');
-		$("#password").focus();
-		return false;
-	}	
-	if($("#username").val().length>12)
-	{
-		$.messager.alert('提示','用户名长度不能超过12位','info');
-		$("#username").focus();
-		return false;
-	}	
-	if($("#password").val().length<6||$("#password").val().length>12)
-	{
-		$.messager.alert('提示','密码长度必须在6-12之间','info');
-		$("#password").focus();
-		return false;
-	}	
-	if($("#truename").val().length>12)
-	{
-		$.messager.alert('提示','姓名必须少于六个中文','info');
-		$("#truename").val().focus();
-		return false;
-	}
-    $.post('__URL__/registerUser',{'username':$('#username').val(),'password':$('#password').val(),'truename':$('#truename').val()},function(data){
-		if(data.info=="yes")
-		{			
-			//location.href="__URL__/index";
-			$.messager.alert('提示','注册成功，请等待管理员激活账号','info');
-			window.location.href="__URL__/login";
-		}
-		else
+		if($("#username").val()=="")
 		{
-			$.messager.alert('错误',data.info,'error');
+			$.messager.alert('提示','用户名不能为空','info');
+			$("#username").focus();
+			return false;
 		}
-    	
-    },'json');
-	
-	
-}
+		if($("#password").val()=="")
+		{
+			$.messager.alert('提示','密码不能为空','info');
+			$("#password").focus();
+			return false;
+		}	
+		if($("#username").val().length>12)
+		{
+			$.messager.alert('提示','用户名长度不能超过12位','info');
+			$("#username").focus();
+			return false;
+		}	
+		if($("#password").val().length<6||$("#password").val().length>12)
+		{
+			$.messager.alert('提示','密码长度必须在6-12之间','info');
+			$("#password").focus();
+			return false;
+		}	
+		if($("#truename").val().length>12)
+		{
+			$.messager.alert('提示','姓名必须少于六个中文','info');
+			$("#truename").val().focus();
+			return false;
+		}
+    	$.post('__URL__/registerUser',{'username':$('#username').val(),'password':$('#password').val(),'truename':$('#truename').val()},function(data){
+			if(data.info=="yes")
+			{			
+				$.messager.alert('提示','注册成功，请等待管理员激活账号','info');
+				window.location.href="__URL__/login";
+			}
+			else
+			{
+				$.messager.alert('错误',data.info,'error');
+			}
+    	},'json');	
+	}
 </script>
-
-
 </head>
+
 <body>
-
-
 <div id="reg" class="">
-
-<div id="register_form" class="register_form">
-   <ul class="clearfix"> 
-   <li> 
-   <label for="username" style="style= font-family:微软雅黑 color:#000;">用户名&nbsp;</label> 
-   <input type="text" id="username" class=" r5px2" name="username" spellcheck="false" placeholder="您的用户名" /> 
-   </li> 
-   <br />
-   <li> 
-   <label for="password" style="font-family:微软雅黑 color:#000;">密&nbsp;码&nbsp;&nbsp;&nbsp;</label> 
-   <input type="password" id="password" class="r5px2" name="password" placeholder="长度为6~12数字字母"/> 
-   </li> 
-   <br />
-   <li> 
-   <label for="truename" style="font-family:微软雅黑 color:#000;">姓&nbsp;名&nbsp;&nbsp;&nbsp;</label> 
-   <input type="text" id="truename" class=" r5px2" name="truename" placeholder="真实姓名用于激活账号"/> 
-   </li> 
+	<div id="register_form" class="register_form">
+   		<ul class="clearfix"> 
+   			<li> 
+   				<label for="username" style="style= font-family:微软雅黑 color:#000;">用户名&nbsp;</label> 
+   				<input type="text" id="username" class=" r5px2" name="username" spellcheck="false" placeholder="您的用户名" /> 
+   			</li> 
+   			<br />
+   			<li> 
+   				<label for="password" style="font-family:微软雅黑 color:#000;">密&nbsp;码&nbsp;&nbsp;&nbsp;</label> 
+   				<input type="password" id="password" class="r5px2" name="password" placeholder="长度为6~12数字字母"/> 
+   			</li> 
+   			<br />
+   			<li> 
+   				<label for="truename" style="font-family:微软雅黑 color:#000;">姓&nbsp;名&nbsp;&nbsp;&nbsp;</label> 
+   				<input type="text" id="truename" class=" r5px2" name="truename" placeholder="真实姓名用于激活账号"/> 
+   			</li> 
  
-   <li style="padding:12px 0 0 0;"> 
-   <input type="button" id="button_login" onClick="register();" class="btn border" value="注册" />
-   &nbsp;<a href="__URL__/login" style="font-size:14px; margin-left:40px;">点击此处登陆</a> 
-   </li> 
+   			<li style="padding:12px 0 0 0;"> 
+   				<input type="button" id="button_login" onClick="register();" class="btn border" value="注册" />
+   				&nbsp;<a href="__URL__/login" style="font-size:14px; margin-left:40px;">点击此处登陆</a> 
+   			</li> 
    
-   <li> 
-
-   </li> 
-   </ul> 
-</div>
+   			<li> 
+   			</li> 
+   		</ul> 
+	</div>
 </div>
 </body>
 </html>

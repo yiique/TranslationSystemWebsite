@@ -1,24 +1,25 @@
 <include file="Public:header" />
 <include file="Public:menu" />
+
 <script>
-var editcount=0;
-var lastIndex=0;
-var doc_height=document.documentElement.clientHeight;
-$(function(){	
-	$('#win-newuser').window({
-		title: '添加用户',
-		width: 500,
-		modal: true,
-		shadow: false,
-		closed: true,
-		inline:false,
-		resizable:false,
-		minimizable:false,
-		maximizable:false,
-		collapsible:false,
-		height: 200
+	var editcount=0;
+	var lastIndex=0;
+	var doc_height=document.documentElement.clientHeight;
+	$(function(){	
+		$('#win-newuser').window({
+			title: '添加用户',
+			width: 500,
+			modal: true,
+			shadow: false,
+			closed: true,
+			inline:false,
+			resizable:false,
+			minimizable:false,
+			maximizable:false,
+			collapsible:false,
+			height: 200
 		});	
-	$('#win').window({
+		$('#win').window({
 			title: '修改密码',
 			width: 500,
 			modal: true,
@@ -29,39 +30,29 @@ $(function(){
 			minimizable:false,
 			maximizable:false,
 			collapsible:false,
-			
 			height: 180
-		});
-				
+		});		
 	});
 	
 	var typePair=[{key:'admin',value:'管理员'},{key:'normal',value:'普通用户'}];
 	var activePair=[{key:1,value:'是'},{key:0,value:'否'}];
 	
 	$(function(){
-	
-	   $(window).resize(function(){							  
-
-	
-		  $("#listuser").datagrid({								
-	    
-		   height:doc_height-215
-		 });
-	   });
+	   	$(window).resize(function(){							  
+			$("#listuser").datagrid({								
+		   		height:doc_height-215
+		 	});
+	   	});
 	   
 		$('#listuser').datagrid({
-			 
 			toolbar:[{
-
 				text:'添加用户',
-
 				iconCls:'icon-add',
-				
 				handler:function(){
 					showNewUser();
 				}		
 			}],
-			  
+			  showNew
 			url: app_url+'/User/listUser',
 			idField:'username',
 			
@@ -77,291 +68,111 @@ $(function(){
 		    pagination:true,
 		    loadMsg:'数据载入中...',
 					 
-			columns:[[{field:'username',title:'用户名',width:180,align:'center'},
-			          {field:'truename',title:'真实姓名',width:180,align:'center'},
-					  {field:'type',title:'用户类别',width:130,align:'center',
-					   editor:{
-						       type:'combobox',
-					           options:{
-								        editable:false,
-									    valueField:'key',
-									    textField:'value',
-									    data:typePair,
-									    validType:'typeCheck',
-									    required:true
-								       }
-							  },
-					   formatter:function(val,rec)
-					   {
-						    if(val=='admin')
-							   return '管理员';
-							else
-							   return '普通用户';
-					   }
-					  },
-					  {field:'registertime',title:'添加时间',width:140,align:'center'},
-						{field:'isactive',title:'是否激活',width:100,align:'center', 
-							editor:{
-							type:'combobox',
-							options:{
-								editable:false,
-								valueField:'key',
-								textField:'value',
-								data:activePair,
-								validType:'activeCheck',
-								required:true
-								}
-							}
-							,formatter:function(val,rec){
-	                		if (val ==1)
-	                    		return '是';
-	                		else
-	                    		return '否';
-	                		                
-	            			},
-		            		styler:function(value,row,index){
-		                		if(value==0){
-		                    return 'color:red;';}
-		            		}
-						},
-					 {field:'action',title:'操作',width:200,align:'center',formatter:function(val,rec,index){
-					  var str="";
-					  if(rec.editing)
+			columns:[[
+				{field:'username',title:'用户名',width:180,align:'center'},
+				{field:'truename',title:'真实姓名',width:180,align:'center'},
+				{field:'type',title:'用户类别',width:130,align:'center',
+					editor:{
+						type:'combobox',
+						options:{
+							editable:false,
+							valueField:'key',
+							textField:'value',
+							data:typePair,
+							validType:'typeCheck',
+							required:true
+						}
+					},
+					formatter:function(val,rec){
+						if(val=='admin')
+							return '管理员';
+						else
+							return '普通用户';
+					}
+				},
+				{field:'registertime',title:'添加时间',width:140,align:'center'},
+				{field:'isactive',title:'是否激活',width:100,align:'center', 
+					editor:{
+						type:'combobox',
+						options:{
+							editable:false,
+							valueField:'key',
+							textField:'value',
+							data:activePair,
+							validType:'activeCheck',
+							required:true
+						}
+					},
+					formatter:function(val,rec){
+	                	if (val ==1)
+	                    	return '是';
+	                	else
+	                    	return '否';              
+	            	},
+		            styler:function(value,row,index){
+		               	if(value==0){
+		                    return 'color:red;';
+		                }
+		            }
+				},
+				{field:'action',title:'操作',width:200,align:'center',
+					formatter:function(val,rec,index){
+						var str="";
+					  	if(rec.editing)
 						{
-						   str+="<a href='#' style='color:red' onclick='javascript:saveRow("+index+");'>保存&nbsp;</a>";
-						   str+="<a href='#' style='color:red' onclick='javascript:cancelRow("+index+");'>取消</a>";
+							str+="<a href='#' style='color:red' onclick='javascript:saveRow("+index+");'>保存&nbsp;</a>";
+							str+="<a href='#' style='color:red' onclick='javascript:cancelRow("+index+");'>取消</a>";
 					    }
-					  else
+					  	else
 						{							
 							str+="<a href='#' onclick='javascript:editRow("+index+");'>修改&nbsp;</a>";
 							str+="<a href='#' onclick='javascript:delRow("+index+",\""+rec.username+"\");'>删除&nbsp;</a>";	
 							str+="&nbsp;|&nbsp;";
-							str+="<a href='#' onclick='javascript:modOtherPassword("+"\""+rec.username+"\");'>修改密码</a>";	
-																
+							str+="<a href='#' onclick='javascript:modOtherPassword("+"\""+rec.username+"\");'>修改密码</a>";										
 						}
-							
 						return str;
-					    }
-					 }
-					]],
-			        
-					onClickRow:function(rowIndex)
-					{
-						lastIndex=rowIndex; 
-						$(this).datagrid('unselectRow', rowIndex);
-					},
-					onBeforeEdit:function(index,row)
-					{ 
-						row.editing = true; 
-						$('#listuser').datagrid('refreshRow', index); 
-						editcount++; 
-					//	updateActions(); 
-					}, 
-					onAfterEdit:function(index,row)
-					{ 
-						row.editing = false; 
-						$('#listuser').datagrid('refreshRow', index); 
-						editcount--; 
-					//	updateActions(); 
-					}, 
-					onCancelEdit:function(index,row)
-					{ 
-						row.editing = false; 
-						$('#listuser').datagrid('refreshRow', index); 
-						editcount--; 
-					//	updateActions(); 
-					},
-					onBeforeLoad:function(param)
-					{
-						if(editcount>0)
-						{
-							$.messager.alert('提示','请先保存或取消正在修改的条目','info');	
-							return false;		
-						}
 					}
-					
-					
-					 
-			});
-		
-		});
-		var can="";
-		var pass="";
-		function modOtherPassword(username)
-		{
-			can=username;
-		   
-			$('#win').window('open');
-		    document.getElementById("pass1").value="";
-			document.getElementById("pass2").value="";
-			
-			$('#span2').text("");
-			$('#pass1').focus();
-			$('#pass1').blur(function(){
-			
-	           if($('#pass1').val()=="")
-	           { 
-		         //$.messager.alert('提示','密码不能为空','info');
-			     $('#span1').css("color","red");
-			     $('#span1').text("密码不能为空");
-	
-		         return false;
-		    
-	           }
-		
-	           var valid=/^[A-Za-z0-9]+$/; 
-	           if(!valid.test($('#pass1').val()))
-	           {
-		       //$.messager.alert('提示','密码含有非法字符，请输入6到12位字母或者数字','info');
-		         $('#span1').text("'密码含有非法字符，请输入6到12位字母或者数字");
-			     return false;
-	           }	
-	   
-	           if($('#pass1').val().length<6||$('#pass1').val().length>12)
-	           {
-		        //$.messager.alert('提示','密码长度必须在6-12之间','info');
-			     $('#span1').css("color","red");
-	             $('#span1').text("密码长度必须在6-12位之间");
-		         return false;
-	           }
-	       pass=$('#pass1').val();
-	  
-	     });
-		   
-	     $('#pass1').focus(function(){
-	        $('#span1').css({"color":"green"});
-	        $('#span1').text("密码为6-12位字母或数字");
-	     });
-	 
-	     $('#quxiao').click(function(){
-	        $('#win').window('close'); 
-	     });
-  }
-function sureedit(){
-
-     pass=$('#pass1').val();
- 
-  	 if($('#pass2').val()==pass&&pass!="")
-	  {
-	    $.post('__URL__/updatePassword',{'username':can,'password':pass},function(data){					
-									//document.location.reload();			
-	    if(data.info=="yes")
-        {
-			    $.messager.alert('提示','密码修改成功','info');
-										
-		}
-	    else
-		{
-				$.messager.alert('错误',data.info,'error');
-		}
-		},'json');
-		 pass="";
-		$('#win').window('close');
-	  }
-	  
-	  else
-	  {
-	  $('#span2').text("您输入的密码不一致");
-	  $('#pass').text("");
-	  return false;
-	  }
-  }
-  
-  		//编辑	
-		function editRow(index)
-		{
-			if(editcount>0)
-			{
-				$.messager.alert('提示','请先保存或取消正在修改的条目','info');			
-			}
-			else
-			{
-				$('#listuser').datagrid('beginEdit', index);
-			}
-		}
-		//更新列表
-		function updateActions(){  
-		    var rowcount = $('#listuser').datagrid('getRows').length;  
-		    for(var i=0; i<rowcount; i++){  
-		        $('#listuser').datagrid('updateRow',{  
-		            index:i,  
-		            row:{
-		            action:''}  
-		        });  
-		    }  
-		}
-		//删除词典
-		function delRow(index,username)
-		{
-			if(editcount>0)
-			{
-				$.messager.alert('提示','请先保存或取消正在修改的条目','info');	
-				return ;		
-			}
-			
-			$.messager.confirm('删除提示', '您确认要删除该条记录?', function(r){
-
-				if (r){
-					$('#listuser').datagrid('deleteRow', index);
-					$('#listuser').datagrid('acceptChanges');	
-					$('#listuser').datagrid('reload');				
-					$.post(app_url+'/User/delUser',{'username':username},function(data){					
-						if(data.info=="yes")
-						{						
-							$('#listuser').datagrid('reload');					
-						}
-						else
-						{
-							$.messager.alert('错误',data.info,'error');
-							$('#listuser').datagrid('rejectChanges');
-						}				
-				    	
-				    },'json');
-					
 				}
-
-			});
-		
-		}
-		//取消操作
-		function cancelRow(index)
-		{
-			$('#listuser').datagrid('rejectChanges',index);
-			$('#listuser').datagrid('refreshRow', index); 
-		}
-		//保存操作
-		function saveRow(index)
-		{		
-			$('#listuser').datagrid('endEdit',index);		
-			var rows=$('#listuser').datagrid('getChanges');		
-			$('#listuser').datagrid('loading');	
-			if(rows.length>0)
+			]],
+			        
+			onClickRow:function(rowIndex)
 			{
-				var json=JSON.stringify(rows[0]);	
-				$('#listuser').datagrid('reload');
-				//alert(json);		
-				$.post(app_url+'/User/updateUser',rows[0],function(data){					
-					if(data.info=="yes")
-					{				
-					}
-					else
-					{
-						$.messager.alert('错误',data.info,'error');
-						$('#listuser').datagrid('rejectChanges');
-					}				
-			    	
-			    },'json');
-			}
-			updateActions();
-			$('#listuser').datagrid('loaded');
-		}
-		
-	function showNewUser()
-	{
-		$('#username').text("");
-		$('#password').text("");
-		$('#win-newuser').window('open');
-	}		
+				lastIndex=rowIndex; 
+				$(this).datagrid('unselectRow', rowIndex);
+			},
+			onBeforeEdit:function(index,row)
+			{ 
+				row.editing = true; 
+				$('#listuser').datagrid('refreshRow', index); 
+				editcount++; 
+			}, 
+			onAfterEdit:function(index,row)
+			{ 
+				row.editing = false; 
+				$('#listuser').datagrid('refreshRow', index); 
+				editcount--; 
+			}, 
+			onCancelEdit:function(index,row)
+			{ 
+				row.editing = false; 
+				$('#listuser').datagrid('refreshRow', index); 
+				editcount--; 
+			},
+			onBeforeLoad:function(param)
+			{
+				if(editcount>0)
+				{
+					$.messager.alert('提示','请先保存或取消正在修改的条目','info');	
+					return false;		
+				}
+			}		 
+		});
+	});		// end function
+
+	var can="";
+	var pass="";
+
+	// newUser function
 	function newUser(){
 		if($('#username').val()=="")
 		{
@@ -391,21 +202,186 @@ function sureedit(){
 		if($('#admin').checked)
 			type="admin";
 	    $.post(app_url+'/User/newUser',{'username':$('#username').val(),'password':$('#password').val(),'type':type},function(data){
-			if(data.info=="yes")
-			{
-				$('#win-newuser').window('close');
-				$('#listuser').datagrid('reload');
-			}
-			else
-			{
-				$.messager.alert('错误',data.info,'error');
-			}
-	    	
-	    },'json');
-		
-
+				if(data.info=="yes")
+				{
+					$('#win-newuser').window('close');
+					$('#listuser').datagrid('reload');
+				}
+				else
+				{
+					$.messager.alert('错误',data.info,'error');
+				}
+	    	},'json');
 	}
 
+	// 展示添加用户面板
+	function showNewUser()
+	{
+		$('#username').text("");
+		$('#password').text("");
+		$('#win-newuser').window('open');
+	}
+
+	// sureedit function
+	function sureedit(){
+     	pass=$('#pass1').val();
+
+  	 	if($('#pass2').val()==pass&&pass!="")
+	  	{
+	    	$.post('__URL__/updatePassword',{'username':can,'password':pass},
+	    		function(data){		
+	    			if(data.info=="yes")
+        			{
+			    		$.messager.alert('提示','密码修改成功','info');				
+					}
+	    			else
+					{
+						$.messager.alert('错误',data.info,'error');
+					}
+				},'json');
+		 	pass="";
+			$('#win').window('close');
+	  	}
+	  	else
+	  	{
+	  		$('#span2').text("您输入的密码不一致");
+	  		$('#pass').text("");
+	  		return false;
+	  	}
+  	}
+
+  	//编辑用户信息	
+	function editRow(index)
+	{
+		if(editcount>0)
+		{
+			$.messager.alert('提示','请先保存或取消正在修改的条目','info');			
+		}
+		else
+		{
+			$('#listuser').datagrid('beginEdit', index);
+		}
+	}
+
+	//删除用户信息
+	function delRow(index,username)
+	{
+		if(editcount>0)
+		{
+			$.messager.alert('提示','请先保存或取消正在修改的条目','info');	
+			return ;		
+		}
+			
+		$.messager.confirm('删除提示', '您确认要删除该条记录?', function(r){
+			if (r){
+				$('#listuser').datagrid('deleteRow', index);
+				$('#listuser').datagrid('acceptChanges');	
+				$('#listuser').datagrid('reload');				
+				$.post(app_url+'/User/delUser',{'username':username},function(data){					
+					if(data.info=="yes")
+					{						
+						$('#listuser').datagrid('reload');					
+					}
+					else
+					{
+						$.messager.alert('错误',data.info,'error');
+						$('#listuser').datagrid('rejectChanges');
+					}					
+				},'json');
+			}
+		});
+		
+	}
+
+	// 修改用户密码
+	function modOtherPassword(username)
+	{
+		can=username;
+		   
+		$('#win').window('open');
+		document.getElementById("pass1").value="";
+		document.getElementById("pass2").value="";
+			
+		$('#span2').text("");
+		$('#pass1').focus();
+		$('#pass1').blur(function(){
+	        if($('#pass1').val()=="")
+	        { 
+			    $('#span1').css("color","red");
+			    $('#span1').text("密码不能为空");
+		        return false;
+	        }
+		
+	        var valid=/^[A-Za-z0-9]+$/; 
+	        if(!valid.test($('#pass1').val()))
+	        {
+		        $('#span1').text("'密码含有非法字符，请输入6到12位字母或者数字");
+			    return false;
+	        }	
+	   
+	        if($('#pass1').val().length<6||$('#pass1').val().length>12)
+	        {
+			    $('#span1').css("color","red");
+	            $('#span1').text("密码长度必须在6-12位之间");
+		        return false;
+	        }
+	       	pass=$('#pass1').val();
+	    });
+		   
+	    $('#pass1').focus(function(){
+	        $('#span1').css({"color":"green"});
+	        $('#span1').text("密码为6-12位字母或数字");
+	    });
+	 
+	    $('#quxiao').click(function(){
+	        $('#win').window('close'); 
+	    });
+  	}
+
+  	// 保存当前行
+	function saveRow(index)
+	{		
+		$('#listuser').datagrid('endEdit',index);		
+		var rows=$('#listuser').datagrid('getChanges');		
+		$('#listuser').datagrid('loading');	
+		if(rows.length>0)
+		{
+			var json=JSON.stringify(rows[0]);	
+			$('#listuser').datagrid('reload');	
+			$.post(app_url+'/User/updateUser',rows[0],function(data){					
+				if(data.info=="yes")
+				{				
+				}
+				else
+				{
+					$.messager.alert('错误',data.info,'error');
+					$('#listuser').datagrid('rejectChanges');
+				}					
+			},'json');
+		}
+		updateActions();
+		$('#listuser').datagrid('loaded');
+	}
+
+	// 更新列表信息
+	function updateActions(){  
+		var rowcount = $('#listuser').datagrid('getRows').length;  
+		for(var i=0; i<rowcount; i++){  
+		    $('#listuser').datagrid('updateRow',{  
+		        index:i,  
+		        row:{action:''}  
+		    });  
+		}  
+	}
+
+	// 取消修改
+	function cancelRow(index)
+	{
+		$('#listuser').datagrid('rejectChanges',index);
+		$('#listuser').datagrid('refreshRow', index); 
+	}
+
+	// 为jquery添加新的成员函数
 	$.extend($.fn.validatebox.defaults.rules, {  
 	    minLength: {  
 	        validator: function(value, param){  
@@ -429,12 +405,10 @@ function sureedit(){
 	        validator: function(value,param){  
             //异步调用  
             var re="";
-        	$.post('User/checkUser',{'username':value},function(data){
-            	//alert(data.info);					
+        	$.post('User/checkUser',{'username':value},function(data){			
 				re=data.info;			
 		    	
 		    },'json');
-		   // alert(re);
 		    return re=="yes";
         },  
         message: '该用户名已经存在'  
@@ -445,68 +419,63 @@ function sureedit(){
 <div id="blank"></div>
 
 <div id="main_wrapper">
-   <div id="trans_wrapper" >
-   
-     <div id="content_wrapper">
-<div class="filetrans">
-	<div id="table" style="width:980px; margin:10px auto;">
-	<table id="listuser">
-	</table>
-    </div>
-	<div id="win-newuser" class="easyui-window" title="添加用户" iconCls="icon-save" style="width:500px;height:200px;padding:5px;background: #fafafa;">
+	<div id="trans_wrapper" >
+     	<div id="content_wrapper">
+			<div class="filetrans">
+				<div id="table" style="width:980px; margin:10px auto;">
+					<table id="listuser">
+					</table>
+    			</div>
 
-		<div class="easyui-layout" fit="true">
-
-			<div id="newuser" region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;">
-				
-				<div id="login_form"> 
-				<form id="fm" method="post">
-					<input type="hidden" name="_xsrf" value="784cae5219b1437c8ab21799d2935092"/> 
-					<ul id="user" class="clearfix"> 
-					<li> 
-					<label for="username" style="color:#000;">用户名</label> 
-	                <input type="text" style="height:25px;margin-top:5px;" class="easyui-validatebox" required="true" placeholder="用户名长度小于12" id="username" maxlength="12" class="text r5px" name="username" spellcheck="false" /> 
-					</li> 
-					<li> 
-					<label for="password" style="color:#000;">密&nbsp;&nbsp;&nbsp;码</label>
-	                <input type="password" style="height:25px;margin-top:5px;" class="easyui-validatebox" required="true" validType="length[6,12]" placeholder="密码长度6-12" id="password" maxlength="12" class="text r5px" name="password" /> 
-					</li> 
-					<li> 
-					<label for="username" style="color:#000;">身&nbsp;&nbsp;&nbsp;份</label> 
-				    <input type="radio" style="width:28px;margin-top:5px;"name="radiobutton" id="normal" checked value="radiobutton">
-				    普通用户
-				    <label>
-				    <input type="radio" style="width:28px;" name="radiobutton" id="admin" value="radiobutton">
-				    管理员</label>
-					</li> 
-					<li class="last" style="padding:5px 0 5px 0"> 
-					<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="javascript:newUser()">保存</a>
-					&nbsp;&nbsp;&nbsp;
-					<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#win-newuser').window('close')">取消</a>
-					</li>			
-					</ul> 
-				</form>	
-				</div> 
+				<div id="win-newuser" class="easyui-window" title="添加用户" iconCls="icon-save" style="width:500px;height:200px;padding:5px;background: #fafafa;">
+					<div class="easyui-layout" fit="true">
+						<div id="newuser" region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;">
+							<div id="login_form"> 
+								<form id="fm" method="post">
+									<input type="hidden" name="_xsrf" value="784cae5219b1437c8ab21799d2935092"/> 
+									<ul id="user" class="clearfix"> 
+										<li> 
+											<label for="username" style="color:#000;">用户名</label> 
+	                						<input type="text" style="height:25px;margin-top:5px;" class="easyui-validatebox" required="true" placeholder="用户名长度小于12" id="username" maxlength="12" class="text r5px" name="username" spellcheck="false" /> 
+										</li> 
+										<li> 
+											<label for="password" style="color:#000;">密&nbsp;&nbsp;&nbsp;码</label>
+	                						<input type="password" style="height:25px;margin-top:5px;" class="easyui-validatebox" required="true" validType="length[6,12]" placeholder="密码长度6-12" id="password" maxlength="12" class="text r5px" name="password" /> 
+										</li> 
+										<li> 
+											<label for="username" style="color:#000;">身&nbsp;&nbsp;&nbsp;份</label> 
+				    						<input type="radio" style="width:28px;margin-top:5px;"name="radiobutton" id="normal" checked value="radiobutton">
+				    						普通用户
+				    						<label>
+				    							<input type="radio" style="width:28px;" name="radiobutton" id="admin" value="radiobutton">
+				    						管理员</label>
+										</li> 
+										<li class="last" style="padding:5px 0 5px 0"> 
+											<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="javascript:newUser()">保存</a>
+											&nbsp;&nbsp;&nbsp;
+											<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#win-newuser').window('close')">取消</a>
+										</li>			
+									</ul> 
+								</form>	
+							</div> 
+						</div>
+					</div>
+				</div>
 			</div>
-			
 
+			<div id="win" class="easyui-window" title="修改密码" style="width:300px;height:180px;">
+				<form style="padding:10px 20px 10px 40px;">
+					<p style=" text-align:left;">请输入新密码: <input type="password" id="pass1"><span id="span1" style=" margin-left:10px; color:green;">密码为6-12位字母或数字</span></p>
+					<p style=" text-align:left;">请确认新密码: <input type="password" id="pass2"><span id="span2" style=" margin-left:10px; color: #FF0000;"></span></p>
+					<div style="padding:5px;text-align:center;">
+						<a href="#" class="easyui-linkbutton" icon="icon-ok" id="queding" onclick="sureedit();">确定</a>
+						<a href="#" class="easyui-linkbutton" icon="icon-cancel" id="quxiao">取消</a>
+					</div>
+				</form>
+			</div>
 		</div>
+	</div>
+</div>
 
-	</div>
-</div>
-<div id="win" class="easyui-window" title="修改密码" style="width:300px;height:180px;">
-		<form style="padding:10px 20px 10px 40px;">
-			<p style=" text-align:left;">请输入新密码: <input type="password" id="pass1"><span id="span1" style=" margin-left:10px; color:green;">密码为6-12位字母或数字</span></p>
-			<p style=" text-align:left;">请确认新密码: <input type="password" id="pass2"><span id="span2" style=" margin-left:10px; color: #FF0000;"></span></p>
-			<div style="padding:5px;text-align:center;">
-				<a href="#" class="easyui-linkbutton" icon="icon-ok" id="queding" onclick="sureedit();">确定</a>
-				<a href="#" class="easyui-linkbutton" icon="icon-cancel" id="quxiao">取消</a>
-			</div>
-		</form>
-	</div>
-	
-</div>
-</div>
-</div>
 </body>
 </html>
