@@ -9,15 +9,12 @@ class IndexAction extends Action
     */
     public function index()
     {
-	
-	
         if(Session::get('username')=="")
     	{
     		$this->display('login');
     	}
     	else
     	{
-    		//dump($_SESSION);
     		$this->assign("username",Session::get('username'));
     		$this->assign("password",md5(Session::get('password')));
     		$this->assign("type",Session::get('type'));
@@ -34,6 +31,7 @@ class IndexAction extends Action
 				Cookie::set('username',$_POST['username']);
 			else 				
 				Cookie::clear('username');
+
 			$User=M("Userinfo");
 			$map['username']=$_POST['username'];
 			
@@ -63,24 +61,22 @@ class IndexAction extends Action
 						Session::set('others',md5($re[0]['issystem']));
 						$this->success('yes');
 					}					
-					
 				}
 				else
 				{
 					$this->error('密码错误!');
 				}
 			}
-			
 		}
 		else
 		{
 			$this->error('用户名不能为空');
 		}
 	}
+	
 	//注册用户
 	public function registerUser()
 	{		
-		
 		if(!empty($_POST['username']))
 		{
 			$User	=	M("Userinfo");
@@ -118,6 +114,7 @@ class IndexAction extends Action
 			return $this->ajaxReturn("yes","用户名不能为空",1);
 		}
 	}
+
 	//选择翻译方向
 	function listTranDir()
 	{
@@ -143,6 +140,7 @@ class IndexAction extends Action
 		Session::destroy();
 		$this->redirect('index');
 	}
+	
     /**
     +----------------------------------------------------------
     * 探针模式

@@ -3,6 +3,7 @@ var reg_transdir =/^\d+$/;
 $(function (){
 	var default_select=null;
 
+	// 读取cookie中的翻译方向
 	if(window.localStorage){
 		default_select = window.localStorage.getItem('otrans_direction');
 	}
@@ -10,6 +11,7 @@ $(function (){
 		default_select=getCookie("otrans_direction");
 	}
 	
+	// 读取cookie中的input和output
 	if(window.sessionStorage){
 		var input_area = $("#input_area");
 		var output_area = $('#result');
@@ -42,7 +44,7 @@ $(function (){
 		}
 	}
 
-	//加载数据
+	// 加载cookie中的翻译方向，根据选择设置cookie中的otrans_direction
 	$("#direction").combobox({
 		onLoadSuccess:function(){
 			$(".combo-panel .combobox-item").click(function(){
@@ -63,18 +65,19 @@ $(function (){
 
 	$(".input_area").bind("keyup",input_text);
 	
+	// 清空控件和cookie
 	$(".clear").click(function(){
 		$(".input_area").val("");			//清空输入内容		
 		$("#result").html("");				//清空翻译结果
 		$(".clear").hide();					//隐藏领域选择
-		//清除数据
+		
 		if(window.sessionStorage){
 			window.sessionStorage.removeItem('otrans_input');
 			window.sessionStorage.removeItem('otrans_output');
 		}
 	});
 	
-	//字体控制及复制功能逻辑
+	// 字体控制
 	var font_size_node = $('#trans-online-size');
 	var font_size = parseInt(font_size_node.text());
 	$('#trans-online-sizeup').click(function(){
@@ -92,6 +95,7 @@ $(function (){
 		}
 	});
 	
+	// 复制功能
 	var copy_client = new ZeroClipboard($('#trans-online-copy'));
 	copy_client.on( 'ready', function(event) {  	//  加载swf
 		copy_client.on('copy', function(event) {
